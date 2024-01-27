@@ -1,0 +1,77 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: dev
+    gateway:
+      routes:
+        - id: ayioj-backend-user-service
+          uri: lb://ayioj-backend-user-service
+          predicates:
+            - Path=/api/user/**
+        - id: ayioj-backend-question-service
+          uri: lb://ayioj-backend-question-service
+          predicates:
+            - Path=/api/question/**
+        - id: ayioj-backend-judge-service
+          uri: lb://ayioj-backend-judge-service
+          predicates:
+            - Path=/api/judge/**
+#      globalcors: # 全局的跨域处理
+#        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOrigins: # 允许哪些网站的跨域请求
+#              - "http://127.0.0.1:8080"
+#            allowedMethods: # 允许的跨域ajax的请求方式
+#              - "GET"
+#              - "POST"
+#              - "DELETE"
+#              - "PUT"
+#              - "OPTIONS"
+#            allowedHeaders: "*" # 允许在请求中携带的头信息
+#            allowCredentials: true # 是否允许携带cookie
+#            maxAge: 360000 # 这次跨域检测的有效期
+            #解决跨域
+#      globalcors:
+#        add-to-simple-url-handler-mapping: true
+#        cors-configurations:
+#          '[/**]': #拦截的请求
+#            allowedOrigins: #允许跨域的请求
+#                - "http://localhost:8080"
+#            allowedMethods: #运行跨域的请求方式
+#              - "GET"
+#              - "POST"
+#              - "DELETE"
+#              - "PUT"
+#              - "OPTIONS"
+#            allowedHeaders: "*"     #允许请求中携带的头信息
+#            allowCredentials: true  #是否允许携带cookie
+#            maxAge: 36000           #跨域检测的有效期,单位s
+  application:
+    name: ayioj-backend-gateway
+  main:
+    web-application-type: reactive
+#cors:
+#  config:
+#    enabled: true
+#    allowOrigin: "*"
+#    allowMethods: "*"
+#    allowHeaders: "*"
+#    allowCredentials: true
+#    credentials: true
+#    exposedHeaders: "*"
+server:
+  port: 8101
+knife4j:
+  gateway:
+    # ① 第一个配置，开启gateway聚合组件
+    enabled: true
+    # ② 第二行配置，设置聚合模式采用discover服务发现的模式
+    strategy: discover
+    discover:
+      # ③ 第三行配置，开启discover模式
+      enabled: true
+      # ④ 第四行配置，聚合子服务全部为Swagger2规范的文档
+      version: swagger2

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ayi.ayiojbackenduserservice.mapper.RoleMapper">
+
+    <select id="getRoleList" resultType="String">
+        select roleName from role where id in (select roleId from user_role where userId in (select id from user where userAccount = #{userAccount}));
+    </select>
+
+    <select id="getRoleName" resultType="String">
+        select roleName from role where id = (select roleId from user_role where userId = #{userId});
+    </select>
+</mapper>

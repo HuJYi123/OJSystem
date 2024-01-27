@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ayi.ayiojbackendquestionservice.mapper.QuestionSubmitMapper">
+
+    <resultMap id="BaseResultMap" type="com.ayi.ayiojbackendmodel.model.entity.QuestionSubmit">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="language" column="language" jdbcType="VARCHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="judgeInfo" column="judgeInfo" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="questionId" column="questionId" jdbcType="BIGINT"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+    <resultMap id="VOResultMap" type="com.ayi.ayiojbackendmodel.model.vo.QuestionSubmitTestVO">
+<!--        <id property="id" column="id" jdbcType="BIGINT"/>-->
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <collection  property="questionSubmitList"  ofType="com.ayi.ayiojbackendmodel.model.entity.QuestionSubmit" resultMap="BaseResultMap" >
+
+        </collection >
+<!--        <association property="question" column="id" select="com.ayi.ayioj.mapper.QuestionMapper.selectQuestionByUserId" >-->
+<!--        </association>-->
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,language,code,
+        judgeInfo,status,questionId,
+        userId,createTime,updateTime,
+        isDelete
+    </sql>
+    <select id="aa" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from question_submit;
+    </select>
+
+    <select id="getQuestionSubmit" resultMap="VOResultMap">
+        select question.title, question_submit.*
+        from question join question_submit on question.id = question_submit.questionId;
+    </select>
+</mapper>
